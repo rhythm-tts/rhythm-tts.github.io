@@ -29,10 +29,10 @@
 		<img src="pics/flamed-tts-logo-5.png" height="460" width="460">
 	</p>
 	<div class="text-center">
-	  <div style="display: inline-block; padding: 4px 8px; border-radius: 8px; background-color: #FFEAD8; color: #235789; font-size: 36px; font-weight: bold; margin-bottom: 4px;">A Flow Matching Attention-Free Models for Efficient Generating and Dynamic Pacing Zero-shot Text-to-Speech</div>
+	  <div style="display: inline-block; padding: 4px 8px; border-radius: 8px; background-color: #FFEAD8; color: #235789; font-size: 36px; font-weight: bold; margin-bottom: 4px;">Rhythm-TTS: High-Fidelity Shortcut Latent Modeling and Probabilistic Rhythm Generation for Zero-Shot Text-to-Speech</div>
       <h5> <a href="https://github.com/flamedtts/Flamed-TTS" target="_blank" rel="noopener noreferrer">Code</a>; <a href="" target="_blank" rel="noopener noreferrer">Paper</a> </h5>
 	</div>
-	<p><b>Abstract</b> Zero-shot Text-to-Speech (TTS) has recently advanced significantly, enabling models to synthesize speech from text using short, limited-context prompts. These prompts serve as voice exemplars, allowing the model to mimic speaker identity, prosody, and other traits without extensive speaker-specific data. Although recent approaches incorporating language models, diffusion, and flow matching have proven their effectiveness in zero-shot TTS, they still encounter challenges such as unreliable synthesis caused by token repetition or unexpected content transfer, along with slow inference and substantial computational overhead. Moreover, temporal diversity—crucial for enhancing the naturalness of synthesized speech—remains largely underexplored. To address these challenges, we propose Flamed-TTS, a novel zero-shot TTS framework that emphasizes low computational cost, low latency, and high speech fidelity alongside rich temporal diversity. To achieve this, we reformulate the flow matching training paradigm and incorporate both discrete and continuous representations corresponding to different attributes of speech. Experimental results demonstrate that Flamed-TTS surpasses state-of-the-art models in terms of intelligibility, naturalness, speaker similarity, acoustic characteristics preservation, and dynamic pace. Notably, Flamed-TTS achieves the best WER of 4% compared to the leading zero-shot TTS baselines, while maintaining low latency in inference and high fidelity in generated speech. Code and audio samples are available at our <a href="https://flamed-tts.github.io">demo page</a>.
+	<p><b>Abstract</b>Zero-shot text-to-speech (TTS) systems are commonly built on either discrete codec tokens or continuous acoustic representations. Discrete-token models benefit from stable sequence modeling and explicit speech factorization, but they ultimately synthesize speech through codebook lookup and codeword composition, which can accumulate errors and impose a quality ceiling on naturalness and speaker similarity. Continuous-representation models can generate fine-grained speech latents directly, but often require heavier in-context modeling and less explicit alignment. This paper presents \textbf{Rhythm-TTS}, a shortcut zero-shot TTS framework that combines the stability of discrete codec tokens with the fidelity of continuous latent generation. Instead of using predicted codec tokens as the final acoustic representation, Rhythm-TTS uses them as a semantic-acoustic prior and directly generates entangled continuous speech latents with flow matching, bypassing the discrete-to-latent reconstruction path at inference time. We further address an underexplored dimension of speech naturalness: rhythm diversity across multiple synthesis runs. Motivated by the hypothesis that rhythm variation is largely governed by phoneme duration changes and the occurrence of silent pauses, we introduce probabilistic Duration and Silence Generators to sample dynamic pacing patterns before acoustic generation. Experiments on zero-shot TTS benchmarks evaluate intelligibility, naturalness, speaker similarity, efficiency, and run-to-run rhythm diversity, showing that the proposed shortcut latent modeling and probabilistic rhythm generation improve the fidelity and temporal naturalness of non-autoregressive zero-shot TTS. Code and audio samples are available at our <a href="https://rhythm-tts.github.io/">demo page</a>.
 	</p>
 	<p>
 	<b>Contents</b>
@@ -54,7 +54,7 @@
 	</p>
 	</body>
 	<p style="text-align: left;" >
-		<b>Figure 1</b>: Overview of Flamed-TTS. The input speech prompt is first processed by the Codec Encoder, which produces six latent sequences: one for prosody, two for content, and three for acoustic details. These encoded representations are then duplicated based on the durations predicted by the Duration Generator, while the Silence Generator inserts silences after each phoneme. The Code Decoder then generates predicted codes for the text prompt, conditioned on both the encoded phonemes and the latent representation of the reference speech. These predicted codes are converted into embeddings and merged before being passed through the Denoiser, where flow matching is performed. Finally, the output embeddings are fed into the Codec Decoder to synthesize the final speech waveform.
+		<b>Figure 1</b>: Overview of Rhythm-TTS. The input speech prompt is first processed by the Codec Encoder, which produces six latent sequences: one for prosody, two for content, and three for acoustic details. These encoded representations are then duplicated based on the durations predicted by the Duration Generator, while the Silence Generator inserts silences after each phoneme. The Code Decoder then generates predicted codes for the text prompt, conditioned on both the encoded phonemes and the latent representation of the reference speech. These predicted codes are converted into embeddings and merged before being passed through the Denoiser, where flow matching is performed. Finally, the output embeddings are fed into the Codec Decoder to synthesize the final speech waveform.
 	</p>
 	<body>
 		<p style="text-align: center;">
@@ -76,7 +76,7 @@
 			<h5 style="text-align: center; display: inline-block; padding: 4px 8px; border-radius: 8px; background-color: #e0f7fa; color: #006064; font-weight: bold; margin-bottom: 4px;">1-second Prompt</h5>
 			<th style="vertical-align : middle;text-align: center">Content</th>
 			<th style="vertical-align : middle;text-align: center">Prompt</th>
-			<th style="vertical-align : middle;text-align: center">Flamed-TTS (Ours)</th>
+			<th style="vertical-align : middle;text-align: center">Rhythm-TTS (Ours)</th>
 			<th style="vertical-align : middle;text-align: center">Spark-TTS</th>
 			<th style="vertical-align : middle;text-align: center">VoiceCraft</th>
 			<th style="vertical-align : middle;text-align: center">Natural Speech 2</th>
@@ -143,7 +143,7 @@
 				<tr>
 					<td style="vertical-align : middle;text-align:center;">january and february of eighteen thirty seven had passed away and still there was no reply from southey</td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/prompt/3575-170457-0054.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/flamedtts/3575-170457-0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/Rhythmtts/3575-170457-0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/sparktts/3575-170457-0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/voicecraft/3575-170457-0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/ns2/3575-170457-0009.wav" autoplay/>Your browser does not support the audio element.</audio></td>
@@ -154,7 +154,7 @@
 				<tr>
 					<td style="vertical-align : middle;text-align:center;">to be or not to be that is the question whether tis nobler in the mind to suffer the slings and arrows what no hamlet speaking</td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/prompt/7176-88083-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/flamedtts/7176-92135-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/Rhythmtts/7176-92135-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/sparktts/7176-92135-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/voicecraft/7176-92135-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
 					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 100px; height: 36px;"><source src="samples/3s/ns2/7176-92135-0022.wav" autoplay/>Your browser does not support the audio element.</audio></td>
@@ -184,7 +184,7 @@
 			<h5 style="text-align: center; display: inline-block; padding: 4px 8px; border-radius: 8px; background-color: #e0f7fa; color: #006064; font-weight: bold; margin-bottom: 4px;">5-second Prompt</h5>
 			<th style="vertical-align : middle;text-align: center">Content</th>
 			<th style="vertical-align : middle;text-align: center">Prompt</th>
-			<th style="vertical-align : middle;text-align: center">Flamed-TTS (Ours)</th>
+			<th style="vertical-align : middle;text-align: center">Rhythm-TTS (Ours)</th>
 			<th style="vertical-align : middle;text-align: center">Spark-TTS</th>
 			<th style="vertical-align : middle;text-align: center">VoiceCraft</th>
 			<th style="vertical-align : middle;text-align: center">Natural Speech 2</th>
